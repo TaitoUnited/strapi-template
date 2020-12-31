@@ -13,9 +13,8 @@ Table of contents:
 
 * [npm](https://github.com/npm/cli) that usually ships with [Node.js](https://nodejs.org/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
-* [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients)
-* [Sqitch](https://sqitch.org/)
-* Optional: Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
+* Optional: [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients)
+* Optional: Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Quick start
 
@@ -44,31 +43,9 @@ Start containers defined in `docker-compose.yaml`:
 
     docker-compose up
 
-Deploy database migrations with Sqitch:
-
-    . ./taito-config.sh   # Set environment variables, if not already set for this shell
-    (cd database; SQITCH_PASSWORD=secret1234 sqitch -h localhost -p 6000 -d $db_database_name -u $db_database_app_username deploy)
-
-Import development data to database:
-
-    . ./taito-config.sh   # Set environment variables, if not already set for this shell
-    PGPASSWORD=secret1234 psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username -f database/data/local.sql
-
 Open the application on browser:
 
     http://localhost:9999
-
-Open admin GUI in browser:
-
-    http://localhost:9999/admin
-
-Open server API in browser:
-
-    http://localhost:9999/api/healthz
-
-Open www site in browser:
-
-    http://localhost:7463/docs
 
 Connect to database using password `secret1234`:
 
@@ -77,10 +54,6 @@ Connect to database using password `secret1234`:
 Use `npm`, `docker-compose` and `docker` normally to run commands and operate containers.
 
 If you would like to use some of the additional commands provided by Taito CLI also without using Taito CLI, first run the command with verbose option (`taito -v`) to see which commands Taito CLI executes under the hood, and then implement them in your `package.json` or `Makefile`.
-
-## Testing
-
-You may run Cypress against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
 
 ## Configuration
 
