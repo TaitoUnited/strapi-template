@@ -7,50 +7,6 @@ if [[ ${taito_verbose:-} == "true" ]]; then
   set -x
 fi
 
-if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
-  # Remove serverless-http adapter since Kubernetes is enabled
-  if [[ -d ./server ]]; then
-    sed -i '/serverless/d' ./server/package.json
-    sed -i '/serverless/d' ./server/src/server.ts
-  fi
-
-  # Remove server and graphql service accounts
-  # (most likely not required for storage access with kubernetes)
-  sed -i '/$taito_project-$taito_env-graphql/d' ./scripts/taito/project.sh
-  sed -i '/$taito_project-$taito_env-server/d' ./scripts/taito/project.sh
-  sed -i '/-graphql/d' ./scripts/terraform.yaml
-  sed -i '/-server/d' ./scripts/terraform.yaml
-else
-  # Remove helm.yaml since kubernetes is disabled
-  rm -f ./scripts/helm*.yaml
-
-  if [[ ${taito_provider} == "aws" ]]; then
-    # Use aws policy instead of service account
-    sed -i '/SERVICE_ACCOUNT_KEY/d' ./scripts/terraform.yaml
-    sed -i '/id: ${taito_project}-${taito_env}-server/d' ./scripts/terraform.yaml
-    sed -i '/-storage-serviceaccount/d' ./scripts/taito/project.sh
-    sed -i '/-storage.accessKeyId/d' ./scripts/taito/project.sh
-    sed -i '/-storage.secretKey/d' ./scripts/taito/project.sh
-  else
-    # Use service account instead of aws policy
-    sed -i "/^      awsPolicy:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
-    sed -i '/BUCKET_REGION/d' ./scripts/terraform.yaml
-  fi
-
-  # Remove storage service account
-  # (most likely not required for storage access with serverless)
-  sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
-  sed -i '-storage/d' ./scripts/terraform.yaml
-fi
-
-if [[ ${taito_provider} != "aws" ]]; then
-  # Remove AWS specific stuff from implementation
-  if [[ -d ./server ]]; then
-    sed -i '/aws/d' ./server/src/common/config.ts
-    sed -i '/prettier-ignore/d' ./server/src/common/config.ts
-  fi
-fi
-
 if [[ ${taito_provider} != "gcp" ]]; then
   # Remove GCP specific stuff from terraform.yaml
   sed -i "s/serviceAccount://g" ./scripts/terraform.yaml
