@@ -75,6 +75,12 @@ Open Strapi server GUI:
 
 > If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
+## Create Strapi webhooks to preview or publish your site
+
+On Strapi admin GUI (Settings -> Webhooks) you can configure webhooks to trigger your website build automatically. For example, to use Strapi with the [website-template](https://github.com/TaitoUnited/website-template) preview webhook mechanism, add the following webhook for entry create, update, and delete events:
+
+    https://USER:PASSWORD@aarni-website-dev.taitodev.com/webhook/SECRET/publish-for-strapi
+
 ---
 
 ## Remote environments
