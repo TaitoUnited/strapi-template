@@ -1,6 +1,6 @@
 # Builder, tester and runtime container for local development
 # NOTE: npm libraries are installed inside container to speed up build
-FROM strapi/strapi:3.2.4-alpine
+FROM strapi/strapi:3-alpine
 ARG SERVICE_DIR=.
 WORKDIR /service
 ENV NODE_ENV development

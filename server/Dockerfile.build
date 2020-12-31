@@ -1,5 +1,5 @@
 # Builder and tester container for production build
-FROM strapi/strapi:3.2.4-alpine as builder
+FROM strapi/strapi:3-alpine as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 WORKDIR /service
