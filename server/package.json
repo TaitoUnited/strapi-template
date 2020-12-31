@@ -1,0 +1,41 @@
+{
+  "name": "strapi-template",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "preinstall": "if [ -f package-lock.json ]; then npx npm-force-resolutions; fi",
+    "unit": "echo TODO unit?",
+    "test": "echo TODO test?",
+    "lint": "echo TODO lint?",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "knex": "<0.20.0",
+    "pg": "^8.4.1",
+    "strapi": "3.2.4",
+    "strapi-admin": "3.2.4",
+    "strapi-connector-bookshelf": "3.2.4",
+    "strapi-plugin-content-manager": "3.2.4",
+    "strapi-plugin-content-type-builder": "3.2.4",
+    "strapi-plugin-email": "3.2.4",
+    "strapi-plugin-upload": "3.2.4",
+    "strapi-plugin-users-permissions": "3.2.4",
+    "strapi-provider-upload-google-cloud-storage": "3.1.6",
+    "strapi-utils": "3.2.4"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "0846bb9f-2e10-4532-adca-f7e5c902eeba"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  }
+}

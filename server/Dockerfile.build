@@ -1,0 +1,21 @@
+# Builder and tester container for production build
+FROM strapi/strapi:3.2.4-alpine as builder
+ARG SERVICE_DIR=.
+ARG TARGET_ENV=prod
+WORKDIR /service
+COPY ${SERVICE_DIR}/package.json \
+     ${SERVICE_DIR}/package-lock.* \
+     /service/
+ENV TARGET_ENV ${TARGET_ENV}
+ENV NODE_ENV development
+RUN npm ci --loglevel warn
+COPY ${SERVICE_DIR} /service
+RUN npm run lint
+RUN npm run unit
+
+# Build production
+# TODO: separate production stage?
+ENV NODE_ENV production
+RUN npm run build
+EXPOSE 8080
+CMD ["strapi", "start"]

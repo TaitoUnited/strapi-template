@@ -1,0 +1,122 @@
+# This file is used for running Docker Compose on remote servers. It is not
+# needed if you use Kubernetes instead.
+# TODO: health checks
+
+version: '3.5'
+services:
+  strapi-template-ingress:
+    container_name: strapi-template-ingress
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "_PORT_:80"
+      # If you want to directly expose this ingress to browser, use the
+      # following settings and configure SSL in docker-nginx.conf.
+      # - "80:80"
+      # - "443:443"
+    secrets:
+      - BASIC_AUTH_HTPASSWD
+    volumes:
+      - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
+
+  strapi-template-server:
+    container_name: strapi-template-server
+    image: local/strapi-template/server:_IMAGE_TAG_
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    secrets:
+      - DATABASE_PASSWORD
+      - SERVICE_ACCOUNT_KEY
+      - ADMIN_JWT_SECRET
+      - JWT_SECRET
+    environment:
+      # Paths and bind
+      BASE_PATH: /api
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: strapi-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      # Services
+      SENTRY_DSN: #sentryDSN
+      KAFKA_HOST: strapi-template-kafka
+      KAFKA_PORT: 9092
+      DATABASE_HOST: 172.17.0.1  # For docker db: strapi-template-database
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_app_username}
+      DATABASE_POOL_MIN: '1'
+      DATABASE_POOL_MAX: '10'
+      REDIS_HOST: strapi-template-redis
+      REDIS_PORT: 6379
+      BUCKET_URL: http://strapi-template-storage:9000/
+      BUCKET_REGION: milkyway
+      BUCKET_BUCKET: bucket
+      BUCKET_BROWSE_URL: http://localhost:_PORT_/bucket   # TODO
+      BUCKET_DOWNLOAD_URL: http://localhost:_PORT_/bucket # TODO
+      BUCKET_KEY_ID: minio
+      BUCKET_FORCE_PATH_STYLE: 'true'
+
+  # "EXTERNAL RESOURCES"
+  # Uncomment these if you want to run them in Docker Compose instead
+
+  # NOTE: If you use strapi-template-database instead of external database,
+  # do the following:
+  # - Uncomment the strapi-template-database in this file.
+  # - Modify the following settings in taito-config.sh:
+  #     db_database_mgr_username="$db_database_app_username"
+  #     db_database_mgr_secret="$db_database_app_secret"
+  # - In local-ci.sh, move 'db-deploy' step to be executed after the
+  #   'deployment-deploy' step, since database must be running during db deploy.
+  # - Answer 'no' to the database creation step during 'taito env apply:ENV'.
+
+  # strapi-template-database:
+  #   container_name: strapi-template-database
+  #   image: postgres:12
+  #   restart: unless-stopped
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "5432:5432"
+  #   secrets:
+  #     - DATABASE_PASSWORD
+  #     - DATABASE_MGR_PASSWORD
+  #   environment:
+  #     POSTGRES_DB: ${db_database_name}
+  #     POSTGRES_USER: ${db_database_app_username}
+  #     POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+  #     MYSQL_ROOT_PASSWORD_FILE /run/secrets/DATABASE_MGR_PASSWORD
+  #   volumes:
+  #     - "./database:/docker-entrypoint-initdb.d:delegated"
+  #     - "./database-db/mount:/var/lib/postgresql/data"
+
+  # "INFRASTRUCTURE"
+
+  # watchtower:
+  #   restart: always
+  #   image: index.docker.io/v2tec/watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./watchtower-config.json:/config.json
+  #   command: --interval 60
+
+secrets:
+  DATABASE_PASSWORD:
+    file: ./secrets/${taito_env}/${db_database_app_secret}
+  SERVICE_ACCOUNT_KEY:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-server-serviceaccount.key
+  ADMIN_JWT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-admin-jwt.secret
+  JWT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-jwt.secret
+
+networks:
+  default:

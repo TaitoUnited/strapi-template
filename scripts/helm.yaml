@@ -1,0 +1,88 @@
+# Here you can configure all your Kubernetes resources with a
+# developer-friendly YAML format
+
+# NOTE: See helm/values.yaml for a list of all service attributes
+# and helm/examples.yaml for some examples.
+
+global:
+  domain: ${taito_domain}
+  url: https://${taito_domain}
+  publicPort: 443
+  logProvider: ${taito_logging_provider}
+  logFormat: ${taito_logging_format}
+  logLevel: info # trace, debug, info, warn, error, fatal
+  registry: ${taito_container_registry}
+  imagePullPolicy: ""
+  debug: false
+
+full-stack:
+  networkPolicyEnabled: true
+
+  ingress:
+    class: nginx
+    namespace: nginx-ingress
+    domains:
+      - name: ${taito_domain}
+        altDomains:
+          - name: ${taito_altdomain}
+
+  serviceDefaults:
+    # Auth and security
+    basicAuthEnabled: ${taito_basic_auth_enabled}
+    basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
+    modsecurityEnabled: true
+    serviceAccountRoles: ["taito-restricted-pod"]
+    # Horizontal scaling
+    replicas: ${kubernetes_replicas}
+    minReplicas: ${kubernetes_replicas}
+    # Environment variables
+    env:
+      COMMON_ENV: ${taito_env}
+
+  services:
+    server:
+      paths:
+        - path:
+          clientMaxBodySize: 10m # TODO: only for upload path
+      egress:
+        - ip: "${db_database_real_host}/32"
+      livenessPath: /
+      livenessInitialDelay: 180
+      cpuRequest: 20m
+      cpuLimit: 300m
+      memoryRequest: 100Mi
+      memoryLimit: 512Mi
+      # Database proxy config
+      db:
+        useProxy: ${gcp_db_proxy_enabled}
+        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
+        port: ${db_database_real_port}
+        proxySecret: ${taito_provider_db_proxy_secret}
+      serviceAccount:
+        secret: ${taito_project}-${taito_env}-server-serviceaccount.key
+      secrets:
+        DATABASE_PASSWORD: ${db_database_mgr_secret}
+        ADMIN_JWT_SECRET: ${taito_project}-${taito_env}-admin-jwt.secret
+        JWT_SECRET: ${taito_project}-${taito_env}-jwt.secret
+      env:
+        BASE_PATH: /
+        API_PORT: "8080"
+        API_BINDADDR: "0.0.0.0"
+        SENTRY_DSN: #sentryDSN
+        ADMIN_JWT_SECRET_FILE: /run/secrets/ADMIN_JWT_SECRET
+        JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+        DATABASE_HOST: "${db_database_real_host}"
+        DATABASE_PORT: "${db_database_real_port}"
+        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+        DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        DATABASE_NAME: ${db_database_name}
+        DATABASE_USER: ${db_database_mgr_username}
+        DATABASE_POOL_MIN: "0"
+        DATABASE_POOL_MAX: "5"
+        DATABASE_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+        BUCKET_NAME: ${taito_random_name}-${taito_env}
+        BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-${taito_env}
+        BUCKET_BASE_PATH: /media
+        BUCKET_PUBLIC_FILES: "true"
+        BUCKET_KEY_FILE: /serviceaccount/key

@@ -1,0 +1,33 @@
+# taito
+taito-run-env.sh
+taito-user-config.sh
+taitoflag_*
+secrets
+mnt
+template-tmp
+tmp
+
+node_modules
+site-packages
+.DS_Store
+.vscode
+build
+*.log
+*.log.*
+*.tmp
+*.pyc
+*~
+
+# Eclipse
+.metadata
+RemoteSystemsTempFiles
+
+# Helm
+scripts/helm/charts/*
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+
+.env

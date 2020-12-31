@@ -1,0 +1,102 @@
+version: '3.5'
+services:
+  strapi-template-ingress:
+    container_name: strapi-template-ingress
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "127.0.0.1:9999:80"
+    volumes:
+      - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
+
+  strapi-template-server:
+    container_name: strapi-template-server
+    build:
+      context: ./server
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+      - "127.0.0.1:4229:9229"
+    volumes:
+      - "./server:/service:delegated"
+      - "/service/node_modules"
+    secrets:
+      - DATABASE_PASSWORD
+      - SERVICE_ACCOUNT_KEY
+      - ADMIN_JWT_SECRET
+      - JWT_SECRET
+    environment:
+      # Paths and bind
+      BASE_PATH: /api
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      HOST_OS: ${taito_host_os}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: strapi-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+
+      # Services
+      SENTRY_DSN: #sentryDSN
+      ADMIN_JWT_SECRET_FILE: /run/secrets/ADMIN_JWT_SECRET
+      JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+
+      # Use dev database instead of local
+      DATABASE_HOST: strapi-template-database
+      DATABASE_PORT: ${db_database_port}
+      DATABASE_NAME: ${taito_random_name}_dev
+      DATABASE_USER: ${taito_random_name}_dev
+      DATABASE_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+      DATABASE_POOL_MIN: "1"
+      DATABASE_POOL_MAX: "10"
+      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+
+      # Use dev GCP bucket instead of local
+      BUCKET_NAME: ${taito_random_name}-dev
+      BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev
+      BUCKET_BASE_PATH: /media
+      BUCKET_PUBLIC_FILES: "true"
+      BUCKET_KEY_FILE: /run/secrets/SERVICE_ACCOUNT_KEY
+
+  # "EXTERNAL RESOURCES"
+
+  # Use dev database instead of local
+  strapi-template-database:
+    container_name: strapi-template-database
+    image: ${taito_image:-taitounited/taito-cli:latest}
+    restart: unless-stopped
+    entrypoint: /bin/sh -c "cd /project && taito db-proxy:dev 5432"
+    user: taito
+    networks:
+      - default
+    ports:
+      - "127.0.0.1:6001:5432"
+    volumes:
+      - ".:/project:delegated"
+    environment:
+      taito_docker: "true"
+
+secrets:
+  DATABASE_PASSWORD:
+    file: ./secrets/${taito_env}/${db_database_app_secret}
+  SERVICE_ACCOUNT_KEY:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-server-serviceaccount.key
+  ADMIN_JWT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-admin-jwt.secret
+  JWT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-jwt.secret
+
+networks:
+  default:
