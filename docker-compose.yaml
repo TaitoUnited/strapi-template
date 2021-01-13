@@ -23,8 +23,8 @@ services:
       - "8080"
       - "127.0.0.1:4229:9229"
     volumes:
-      - "./server:/service:delegated"
-      - "/service/node_modules"
+      - "./server:/develop:delegated"
+      - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
       - SERVICE_ACCOUNT_KEY
