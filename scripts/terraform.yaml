@@ -6,8 +6,6 @@
 settings:
   backupEnabled: false
   uptimeEnabled: false
-  alerts: []
-  apiKeys: []
 
   serviceAccounts:
     - id: ${taito_project}-${taito_env}-server
@@ -15,11 +13,18 @@ settings:
 
   ingress:
     class: gateway
-    enabled: false
+    enabled: false # ingress
     createMainDomain: false
-    domains: []
+    domains:
+      - name: ${taito_domain}
+        # TODO: implement altDomains support
+        altDomains:
+          - name: ${taito_altdomain}
 
   services:
+    server:
+      uptimePath: /
+
     bucket:
       type: bucket
       name: ${taito_random_name}-${taito_env}
