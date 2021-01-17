@@ -67,7 +67,7 @@ Make sure your authentication is in effect:
 
 Start your local development environment:
 
-    taito kaboom
+    taito develop
 
 Open Strapi server GUI:
 

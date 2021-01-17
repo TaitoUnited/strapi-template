@@ -4,26 +4,26 @@ This file has been copied from [STRAPI-TEMPLATE](https://github.com/TaitoUnited/
 
 Table of contents:
 
-* [Prerequisites](#prerequisites)
-* [Quick start](#quick-start)
-* [Development tips](#development-tips)
-* [Code structure](#code-structure)
-* [Version control](#version-control)
-* [Database migrations](#database-migrations)
-* [Deployment](#deployment)
-* [Upgrading](#upgrading)
-* [Configuration](#configuration)
+- [Prerequisites](#prerequisites)
+- [Quick start](#quick-start)
+- [Development tips](#development-tips)
+- [Code structure](#code-structure)
+- [Version control](#version-control)
+- [Database migrations](#database-migrations)
+- [Deployment](#deployment)
+- [Upgrading](#upgrading)
+- [Configuration](#configuration)
 
 ## Prerequisites
 
-* [Node.js](https://nodejs.org/)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-* [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
-* Optional: Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
+- [Node.js](https://nodejs.org/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
+- Optional: Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Quick start
 
-> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
+> TIP: Start application in a cleaned and initialized local environment with a single command: `taito develop`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
 
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
@@ -67,16 +67,16 @@ List all project related links and open one of them in browser:
     taito open -h
     taito open NAME
 
-Check code quality:
+code check quality:
 
-    taito check code
+    taito code check
 
 Check dependencies (available updates, vulnerabilities):
 
-    taito check deps
-    taito check deps:server
-    taito check deps:server -u             # update packages interactively
-    taito check deps:server -y             # update all packages (non-iteractive)
+    taito dep check
+    taito dep check:server
+    taito dep check:server -u               # update packages interactively
+    taito dep check:server -y               # update all packages (non-iteractive)
 
 > NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused. But all unused `dependencies` can usually be removed from package.json.
 
@@ -132,13 +132,13 @@ You can manage environment and feature branches using Taito CLI commands. Run `t
 
 Container images are built for dev and feature branches only. Once built and tested successfully, the container images will be deployed to other environments on git branch merge:
 
-* **f-NAME**: Push to the `feature/NAME` branch.
-* **dev**: Push to the `dev` branch.
-* **test**: Merge changes to the `test` branch using fast-forward.
-* **uat**: Merge changes to the `uat` branch using fast-forward.
-* **stag**: Merge changes to the `stag` branch using fast-forward.
-* **canary**: Merge changes to the `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
-* **prod**: Merge changes to the `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
+- **f-NAME**: Push to the `feature/NAME` branch.
+- **dev**: Push to the `dev` branch.
+- **test**: Merge changes to the `test` branch using fast-forward.
+- **uat**: Merge changes to the `uat` branch using fast-forward.
+- **stag**: Merge changes to the `stag` branch using fast-forward.
+- **canary**: Merge changes to the `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
+- **prod**: Merge changes to the `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
 Simple projects require only two environments: **dev** and **prod**. You can list the environments with `taito env list`.
 
