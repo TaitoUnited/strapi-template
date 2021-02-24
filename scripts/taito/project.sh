@@ -45,14 +45,7 @@ st_bucket_name="$taito_random_name-$taito_env"
 # Configuration instructions:
 # https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/
 
-taito_local_secrets="
-"
-
-taito_remote_secrets="
-  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
-  $db_database_viewer_secret:random
-"
-
+# Secrets for all environments
 # NOTE: Using manual secrets so that they are copied from dev to local
 # TODO: copy also random secrets
 taito_secrets="
@@ -63,9 +56,26 @@ taito_secrets="
   $taito_project-$taito_env-server-serviceaccount.key:file
 "
 
-taito_testing_secrets="
+# Secrets for local environment only
+taito_local_secrets="
 "
 
+# Secrets for non-local environments
+taito_remote_secrets="
+  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
+  $db_database_viewer_secret:random
+"
+
+# Secrets required by CI/CD
+taito_cicd_secrets="
+  cicd-proxy-serviceaccount.key
+  $db_database_mgr_secret
+  $db_database_ssl_ca_secret
+  $db_database_ssl_cert_secret
+  $db_database_ssl_key_secret
+"
+
+# Secret hints and descriptions
 taito_secret_hints="
   * basic-auth=Basic authentication is used to hide non-production environments from public
   * serviceaccount=Service account is typically used to access Cloud resources

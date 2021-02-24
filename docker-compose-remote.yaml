@@ -1,13 +1,22 @@
-# This file is used for running Docker Compose on remote servers. It is not
-# needed if you use Kubernetes instead.
+# This file is used to run your application on remote servers with
+# Docker Compose. It is not needed if you use Kubernetes or cloud services
+# instead.
 # TODO: health checks
 
-version: '3.5'
+version: '3.9'
+x-logging:
+  &default-logging
+  options:
+    max-size: '100m'
+    max-file: '10'
+  driver: json-file
+
 services:
-  strapi-template-ingress:
-    container_name: strapi-template-ingress
+  strapi-template-${taito_env}-ingress:
+    container_name: strapi-template-${taito_env}-ingress
     image: nginx:stable-alpine
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -21,10 +30,11 @@ services:
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
-  strapi-template-server:
-    container_name: strapi-template-server
+  strapi-template-${taito_env}-server:
+    container_name: strapi-template-${taito_env}-server
     image: local/strapi-template/server:_IMAGE_TAG_
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -48,16 +58,12 @@ services:
       COMMON_ENV: local
       # Services
       SENTRY_DSN: #sentryDSN
-      KAFKA_HOST: strapi-template-kafka
-      KAFKA_PORT: 9092
-      DATABASE_HOST: 172.17.0.1  # For docker db: strapi-template-database
+      DATABASE_HOST: 172.17.0.1  # For docker db: strapi-template-${taito_env}-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      REDIS_HOST: strapi-template-redis
-      REDIS_PORT: 6379
-      BUCKET_URL: http://strapi-template-storage:9000/
+      BUCKET_URL: http://strapi-template-${taito_env}-storage:9000/
       BUCKET_REGION: milkyway
       BUCKET_BUCKET: bucket
       BUCKET_BROWSE_URL: http://localhost:_PORT_/bucket   # TODO
@@ -68,9 +74,9 @@ services:
   # "EXTERNAL RESOURCES"
   # Uncomment these if you want to run them in Docker Compose instead
 
-  # NOTE: If you use strapi-template-database instead of external database,
+  # NOTE: If you use strapi-template-${taito_env}-database instead of external database,
   # do the following:
-  # - Uncomment the strapi-template-database in this file.
+  # - Uncomment the strapi-template-${taito_env}-database in this file.
   # - Modify the following settings in taito-config.sh:
   #     db_database_mgr_username="$db_database_app_username"
   #     db_database_mgr_secret="$db_database_app_secret"
@@ -78,10 +84,11 @@ services:
   #   'deployment-deploy' step, since database must be running during db deploy.
   # - Answer 'no' to the database creation step during 'taito env apply:ENV'.
 
-  # strapi-template-database:
-  #   container_name: strapi-template-database
+  # strapi-template-${taito_env}-database:
+  #   container_name: strapi-template-${taito_env}-database
   #   image: postgres:12
   #   restart: unless-stopped
+  #   logging: *default-logging
   #   networks:
   #     - default
   #   ports:
@@ -97,12 +104,16 @@ services:
   #   volumes:
   #     - "./database:/docker-entrypoint-initdb.d:delegated"
   #     - "./database-db/mount:/var/lib/postgresql/data"
+  #
+  # TODO: storage container
+  #
 
   # "INFRASTRUCTURE"
 
   # watchtower:
-  #   restart: always
   #   image: index.docker.io/v2tec/watchtower
+  #   restart: unless-stopped
+  #   logging: *default-logging
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - ./watchtower-config.json:/config.json
