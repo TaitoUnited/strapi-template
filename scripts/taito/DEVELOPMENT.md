@@ -95,11 +95,11 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito open server:dev                   # Open Strapi server GUI in browser
     taito info:dev                          # Show info
     taito status:dev                        # Show status of dev environment
-    taito test:dev                          # Run integration and e2e tests
-    taito shell:server:dev                  # Start a shell on server container
     taito logs:server:dev                   # Tail logs of server container
     taito open logs:dev                     # Open logs on browser
     taito open storage:dev                  # Open storage bucket on browser
+    taito test:dev                          # Run integration and e2e tests
+    taito shell:server:dev                  # Start a shell on server container
     taito init:dev --clean                  # Clean reinit for dev environment
     taito db connect:dev                    # Access database on command line
     taito db proxy:dev                      # Start a proxy for database access
