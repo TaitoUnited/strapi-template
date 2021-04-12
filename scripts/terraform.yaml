@@ -27,7 +27,7 @@ settings:
 
     bucket:
       type: bucket
-      name: ${taito_random_name}-${taito_env}
+      name: ${st_bucket_name}
       location: ${taito_default_storage_location}
       storageClass: ${taito_default_storage_class}
       # Object lifecycle
@@ -37,15 +37,13 @@ settings:
       transitionRetainDays:
       transitionStorageClass:
       autoDeletionRetainDays:
-      # Replication (TODO: implement)
-      replicationBucket:
       # Backup (TODO: implement)
       backupRetainDays: ${taito_default_storage_backup_days}
       backupLocation: ${taito_default_storage_backup_location}
       backupLock:
       # Cors
-      cors:
-        - origin: https://${taito_domain}
+      corsRules:
+        - allowedOrigins: [ "https://${taito_domain}" ]
       # User rights
       admins:
         - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com

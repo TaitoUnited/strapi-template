@@ -56,8 +56,8 @@ services:
       # Use dev database instead of local
       DATABASE_HOST: strapi-template-database
       DATABASE_PORT: ${db_database_port}
-      DATABASE_NAME: ${taito_random_name}_dev
-      DATABASE_USER: ${taito_random_name}_dev
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_mgr_username}
       DATABASE_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
       DATABASE_POOL_MIN: "1"
       DATABASE_POOL_MAX: "10"
@@ -66,8 +66,8 @@ services:
       DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
 
       # Use dev GCP bucket instead of local
-      BUCKET_NAME: ${taito_random_name}-dev
-      BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev
+      BUCKET_NAME: ${st_bucket_name}
+      BUCKET_BASE_URL: https://storage.googleapis.com/${st_bucket_name}
       BUCKET_BASE_PATH: /media
       BUCKET_PUBLIC_FILES: "true"
       BUCKET_KEY_FILE: /run/secrets/SERVICE_ACCOUNT_KEY
