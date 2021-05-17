@@ -92,7 +92,7 @@ services:
 
 secrets:
   DATABASE_PASSWORD:
-    file: ./secrets/${taito_env}/${db_database_app_secret}
+    file: ./secrets/${taito_env}/${db_database_mgr_secret}
   SERVICE_ACCOUNT_KEY:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-server-serviceaccount.key
   ADMIN_JWT_SECRET:

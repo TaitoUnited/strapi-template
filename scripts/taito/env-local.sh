@@ -11,3 +11,6 @@ taito_app_url=http://localhost:9999
 
 # Connect to database port exposed in docker-compose.yaml
 db_database_external_port=6000
+
+# Use dev database instead of local
+db_database_name=${taito_project//-/_}_dev
