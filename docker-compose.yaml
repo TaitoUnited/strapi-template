@@ -38,8 +38,6 @@ services:
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
-      # Host specific variables
-      HOST_OS: ${taito_host_os}
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: strapi-template
