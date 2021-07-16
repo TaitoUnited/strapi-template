@@ -59,9 +59,9 @@ services:
       DATABASE_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
       DATABASE_POOL_MIN: "1"
       DATABASE_POOL_MAX: "10"
-      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
-      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
-      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+      DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
+      DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
+      DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
 
       # Use dev GCP bucket instead of local
       BUCKET_NAME: ${st_bucket_name}

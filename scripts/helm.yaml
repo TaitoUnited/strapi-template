@@ -74,9 +74,9 @@ full-stack:
         JWT_SECRET_FILE: /run/secrets/JWT_SECRET
         DATABASE_HOST: "${db_database_real_host}"
         DATABASE_PORT: "${db_database_real_port}"
-        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
-        DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
-        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
+        DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
+        DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_mgr_username}
         DATABASE_POOL_MIN: "0"
