@@ -75,7 +75,7 @@ services:
   # Use dev database instead of local
   strapi-template-database:
     container_name: strapi-template-database
-    image: ${taito_image:-taitounited/taito-cli:latest}
+    image: ${taito_image:-ghcr.io/taitounited/taito-cli:latest}
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:dev 5432"
     user: taito
