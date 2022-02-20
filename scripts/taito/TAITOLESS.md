@@ -11,10 +11,10 @@ Table of contents:
 
 ## Prerequisites
 
-- [npm](https://github.com/npm/cli) that usually ships with [Node.js](https://nodejs.org/)
+- [Node.js (LTS version)](https://nodejs.org/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- Optional: [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients)
-- Optional: Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
+- [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients)
+- Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Quick start
 
