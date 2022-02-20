@@ -4,10 +4,10 @@ This file has been copied from [STRAPI-TEMPLATE](https://github.com/TaitoUnited/
 
 ## Prerequisites
 
-* [npm](https://github.com/npm/cli) that usually ships with [Node.js](https://nodejs.org/)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-* [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
-* Optional: Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
+- [Node.js (LTS version)](https://nodejs.org/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
+- Some editor plugins for linting and formatting (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Basic settings
 
@@ -16,7 +16,7 @@ This file has been copied from [STRAPI-TEMPLATE](https://github.com/TaitoUnited/
 3. Run `taito project apply`
 4. Commit and push changes
 
-* [ ] All done
+- [ ] All done
 
 ## Your first remote environment (dev)
 
@@ -55,7 +55,7 @@ See it build and deploy:
 
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:dev` and then try again with `taito env apply:dev`.
 
-* [ ] All done
+- [ ] All done
 
 ## Local development environment
 
