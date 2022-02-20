@@ -43,11 +43,10 @@ settings:
       backupLock:
       # Cors
       corsRules:
-        - allowedOrigins: [ "https://${taito_domain}" ]
+        - allowedOrigins: ["https://${taito_domain}"]
       # User rights
       admins:
         - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectAdmins:
       objectViewers:
-
 # END
