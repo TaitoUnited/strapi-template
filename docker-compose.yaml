@@ -65,7 +65,7 @@ services:
 
       # Use dev GCP bucket instead of local
       BUCKET_NAME: ${st_bucket_name}
-      BUCKET_BASE_URL: https://storage.googleapis.com/${st_bucket_name}
+      BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev
       BUCKET_BASE_PATH: /media
       BUCKET_PUBLIC_FILES: "true"
       BUCKET_KEY_FILE: /run/secrets/SERVICE_ACCOUNT_KEY
