@@ -43,7 +43,7 @@ full-stack:
   services:
     server:
       paths:
-        - path:
+        - path: /
           clientMaxBodySize: 10m # TODO: only for upload path
       egress:
         - ip: "${db_database_real_host}/32"
