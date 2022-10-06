@@ -2,8 +2,9 @@
 
 # TIP: If you want to install latest Strapi version from scratch,
 # just delete the strapi/package.json file and restart the container.
-# Note that by default Strapi uses port 1337 instead of 8080 and sqlite
-# instead of PostgreSQL. Therefore you need to configure those yourself.
+# Note that by default Strapi does not read config from environment
+# variables and secrets. Therefore you need to configure those yourself
+# on strapi/config. You need to also change database settings.
 
 if [ ! -f strapi/package.json ]; then
   # Create new strapi app
@@ -13,5 +14,6 @@ else
   # Start the existing strapi app
   cd strapi
   npm install
+  npm run build
   npm run develop
 fi

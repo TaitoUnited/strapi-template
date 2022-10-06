@@ -24,7 +24,8 @@ COPY --chown="${USER_UID}:0" \
   /develop/strapi/
 ENV NODE_ENV=development
 RUN if [ -f strapi/package.json ]; then (cd strapi && npm install --loglevel warn); fi
+ENV COMMON_URL http://localhost:9999
+RUN npm run build
 
-# RUN npm run build ?
 EXPOSE 8080
 CMD ./start.sh

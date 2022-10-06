@@ -34,12 +34,15 @@ services:
       - SERVICE_ACCOUNT_KEY
       - ADMIN_JWT_SECRET
       - JWT_SECRET
+      - APP_KEYS
+      - API_TOKEN_SALT
     environment:
       # Paths and bind
       BASE_PATH: /api
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
+      COMMON_URL: http://localhost:9999
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: strapi-template
@@ -52,6 +55,8 @@ services:
       SENTRY_DSN: #sentryDSN
       ADMIN_JWT_SECRET_FILE: /run/secrets/ADMIN_JWT_SECRET
       JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+      APP_KEYS_FILE: /run/secrets/APP_KEYS
+      API_TOKEN_SALT_FILE: /run/secrets/API_TOKEN_SALT
 
       # Use dev database instead of local
       DATABASE_HOST: strapi-template-database
@@ -102,9 +107,13 @@ secrets:
   SERVICE_ACCOUNT_KEY:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-server-serviceaccount.key
   ADMIN_JWT_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-admin-jwt.secret
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-strapi.adminJwtSecret
   JWT_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-jwt.secret
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-strapi.jwtSecret
+  APP_KEYS:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-strapi.appKeys
+  API_TOKEN_SALT:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-strapi.apiTokenSalt
 
 networks:
   default:
