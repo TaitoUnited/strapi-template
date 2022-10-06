@@ -14,6 +14,5 @@ else
   # Start the existing strapi app
   cd strapi
   npm install
-  npm run build
   npm run develop
 fi
