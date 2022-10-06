@@ -62,8 +62,10 @@ full-stack:
         DATABASE_PASSWORD: ${db_database_mgr_secret}
         BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
         BUCKET_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
-        ADMIN_JWT_SECRET: ${taito_project}-${taito_env}-admin-jwt.secret
-        JWT_SECRET: ${taito_project}-${taito_env}-jwt.secret
+        ADMIN_JWT_SECRET: ${taito_project}-${taito_env}-strapi.adminJwtSecret
+        JWT_SECRET: ${taito_project}-${taito_env}-strapi.jwtSecret
+        APP_KEYS: ${taito_project}-${taito_env}-strapi.appKeys
+        API_TOKEN_SALT: ${taito_project}-${taito_env}-strapi.apiTokenSalt
       env:
         BASE_PATH: /
         API_PORT: "8080"
