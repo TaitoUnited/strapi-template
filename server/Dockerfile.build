@@ -1,23 +1,44 @@
 # Builder and tester container for production build
-FROM strapi/strapi:3-alpine as builder
-ARG SERVICE_DIR=.
-ARG TARGET_ENV=prod
+FROM node:16-alpine as builder
+
+# Installing libvips-dev for sharp Compatability
+RUN apk update && apk add build-base gcc autoconf automake zlib-dev libpng-dev vips-dev && rm -rf /var/cache/apk/* > /dev/null 2>&1
+
 WORKDIR /develop
+ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
-     ${SERVICE_DIR}/package-lock.* \
      /develop/
-ENV TARGET_ENV ${TARGET_ENV}
-ENV NODE_ENV development
-RUN npm ci --loglevel warn
+COPY ${SERVICE_DIR}/strapi/package.json \
+     ${SERVICE_DIR}/strapi/package-lock.* \
+     /develop/strapi/
+ARG TARGET_ENV=prod
+ENV TARGET_ENV=${TARGET_ENV}
+ENV NODE_ENV=production
+RUN (cd strapi && npm ci --production --loglevel warn)
 COPY ${SERVICE_DIR} /develop
 RUN npm run lint
 RUN npm run unit
-
-# Build production
-# TODO: separate production stage?
-RUN mv /develop /service
-WORKDIR /service
-ENV NODE_ENV production
 RUN npm run build
+
+
+# Production runtime container
+FROM node:16-alpine
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+     company=companyname \
+     project=full-stack-template \
+     role=server
+
+# Installing libvips-dev for sharp Compatability
+RUN apk add vips-dev
+RUN rm -rf /var/cache/apk/*
+
+RUN mkdir -p /service
+WORKDIR /service
+COPY --from=builder /develop .
+
+ENV NODE_ENV=production
+USER node
 EXPOSE 8080
-CMD ["strapi", "start"]
+WORKDIR /service/strapi
+CMD ["npm", "run","start"]
