@@ -31,7 +31,8 @@ services:
       - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
-      - SERVICE_ACCOUNT_KEY
+      - BUCKET_KEY_ID
+      - BUCKET_KEY_SECRET
       - ADMIN_JWT_SECRET
       - JWT_SECRET
       - APP_KEYS
@@ -70,12 +71,16 @@ services:
       DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
       DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
 
-      # Use dev GCP bucket instead of local
-      BUCKET_NAME: ${st_bucket_name}
-      BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev
-      BUCKET_BASE_PATH: /media
-      BUCKET_PUBLIC_FILES: "true"
-      BUCKET_KEY_FILE: /run/secrets/SERVICE_ACCOUNT_KEY
+      # Use dev bucket instead of local
+      BUCKET_BUCKET: ${st_bucket_name}
+      BUCKET_REGION: ${taito_provider_region}
+      BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev # For GCP
+      BUCKET_ENDPOINT: https://storage.googleapis.com # For GCP
+      # BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/ # For Azure through S3 proxy
+      # BUCKET_FORCE_PATH_STYLE: "true"
+      BUCKET_KEY_ID_FILE: /run/secrets/BUCKET_KEY_ID
+      BUCKET_KEY_SECRET_FILE: /run/secrets/BUCKET_KEY_SECRET
+
 
   # "EXTERNAL RESOURCES"
 
@@ -104,8 +109,10 @@ services:
 secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_mgr_secret}
-  SERVICE_ACCOUNT_KEY:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-server-serviceaccount.key
+  BUCKET_KEY_ID:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.accessKeyId
+  BUCKET_KEY_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
   ADMIN_JWT_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-strapi.adminJwtSecret
   JWT_SECRET:

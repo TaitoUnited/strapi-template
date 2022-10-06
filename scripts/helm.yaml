@@ -58,10 +58,10 @@ full-stack:
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
         port: ${db_database_real_port} # For old gcp environments
         proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
-      serviceAccount:
-        secret: ${taito_project}-${taito_env}-server-serviceaccount.key
       secrets:
         DATABASE_PASSWORD: ${db_database_mgr_secret}
+        BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
+        BUCKET_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
         ADMIN_JWT_SECRET: ${taito_project}-${taito_env}-admin-jwt.secret
         JWT_SECRET: ${taito_project}-${taito_env}-jwt.secret
       env:
@@ -81,8 +81,11 @@ full-stack:
         DATABASE_POOL_MIN: "0"
         DATABASE_POOL_MAX: "5"
         DATABASE_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
-        BUCKET_NAME: ${st_bucket_name}
-        BUCKET_BASE_URL: https://storage.googleapis.com/${st_bucket_name}
-        BUCKET_BASE_PATH: /media
-        BUCKET_PUBLIC_FILES: "true"
-        BUCKET_KEY_FILE: /serviceaccount/key
+        BUCKET_BUCKET: ${st_bucket_name}
+        BUCKET_REGION: ${taito_provider_region}
+        BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev # For GCP
+        BUCKET_ENDPOINT: https://storage.googleapis.com # For GCP
+        # BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/ # For Azure through S3 proxy
+        # BUCKET_FORCE_PATH_STYLE: "true"
+        BUCKET_KEY_ID_FILE: /run/secrets/BUCKET_KEY_ID
+        BUCKET_KEY_SECRET_FILE: /run/secrets/BUCKET_KEY_SECRET

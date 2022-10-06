@@ -51,7 +51,8 @@ st_bucket_name="$taito_random_name-$taito_env"
 taito_secrets="
   $db_database_app_secret:manual
   ${db_database_mgr_secret}${taito_cicd_secrets_path}:manual
-  $taito_project-$taito_env-server-serviceaccount.key:file
+  $taito_project-$taito_env-storage.accessKeyId:manual
+  $taito_project-$taito_env-storage.secretKey:manual
   $taito_project-$taito_env-strapi.adminJwtSecret:manual
   $taito_project-$taito_env-strapi.jwtSecret:manual
   $taito_project-$taito_env-strapi.appKeys:manual
