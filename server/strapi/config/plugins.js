@@ -1,6 +1,14 @@
 const { readSecret } = require('./utils.js');
 
 module.exports = ({ env }) => ({
+  'users-permissions': {
+    config: {
+      jwtSecret: readSecret(env('JWT_SECRET_FILE'), null),
+      jwt: {
+        expiresIn: '7d',
+      },
+    }
+  },
   upload: {
     config: {
       provider: 'aws-s3',
