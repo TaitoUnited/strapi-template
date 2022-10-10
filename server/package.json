@@ -8,7 +8,7 @@
     "lint": "echo TODO lint?",
     "develop": "cd strapi && npm run develop",
     "start": "cd strapi && npm run start",
-    "build": "cd strapi && npm run build",
+    "build": "cd strapi && RUNNING_BUILD=true npm run build",
     "strapi": "cd strapi && npm run strapi"
   }
 }
