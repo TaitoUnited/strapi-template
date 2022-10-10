@@ -29,6 +29,8 @@ services:
     volumes:
       - "./server:/develop:delegated"
       - "/develop/node_modules"
+      - "/develop/strapi/node_modules"
+      - "/develop/strapi/.cache"
     secrets:
       - DATABASE_PASSWORD
       - BUCKET_KEY_ID
