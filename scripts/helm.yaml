@@ -73,6 +73,8 @@ full-stack:
         SENTRY_DSN: #sentryDSN
         ADMIN_JWT_SECRET_FILE: /run/secrets/ADMIN_JWT_SECRET
         JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+        APP_KEYS_FILE: /run/secrets/APP_KEYS
+        API_TOKEN_SALT_FILE: /run/secrets/API_TOKEN_SALT
         DATABASE_HOST: "${db_database_real_host}"
         DATABASE_PORT: "${db_database_real_port}"
         DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
