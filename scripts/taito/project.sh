@@ -39,7 +39,7 @@ taito_networks="default"
 
 # Buckets
 taito_buckets="bucket"
-st_bucket_name="$taito_random_name-$taito_env"
+st_bucket_name="$taito_random_name-${taito_env/local/dev}"
 
 # ------ Secrets ------
 # Configuration instructions:
