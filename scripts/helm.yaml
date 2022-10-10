@@ -43,7 +43,9 @@ full-stack:
     server:
       paths:
         - path: /
-          clientMaxBodySize: 10m # TODO: only for upload path
+        - path: /upload
+          rewriteTarget: /upload
+          clientMaxBodySize: 10m
       egress:
         - ip: "${db_database_real_host}/32"
       livenessPath: /
