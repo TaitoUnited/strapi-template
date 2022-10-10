@@ -18,7 +18,7 @@ taito_environments="${template_default_environments}"
 # Basic auth: Uncomment the line below to disable basic auth from ALL
 # environments. Use env-prod.sh to disable basic auth from prod
 # environment only.
-# taito_basic_auth_enabled=false
+taito_basic_auth_enabled=false
 
 # ------ Stack ------
 # Configuration instructions:
