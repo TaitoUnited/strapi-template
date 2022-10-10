@@ -32,6 +32,7 @@ settings:
       storageClass: ${taito_default_storage_class}
       # Azure specific settings
       allowNestedItemsToBePublic: true
+      containerAccessType: container
       # Object lifecycle
       versioningEnabled: true
       versioningRetainDays: ${taito_default_storage_days}
