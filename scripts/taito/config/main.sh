@@ -468,11 +468,14 @@ case $taito_env in
   local)
     taito_deployment_platforms=docker-compose
     db_database_host=$taito_project-database
-    db_database_ssl_enabled=false
-    db_database_ssl_client_cert_enabled=false
-    db_database_ssl_server_cert_enabled=false
-    db_database_proxy_ssl_enabled=false
-    db_database_username_suffix=
+
+    # Using dev environment database by default
+    # db_database_ssl_enabled=false
+    # db_database_ssl_client_cert_enabled=false
+    # db_database_ssl_server_cert_enabled=false
+    # db_database_proxy_ssl_enabled=false
+    # db_database_username_suffix=
+
     if [[ $db_database_type == "pg" ]]; then
       db_database_port=5432
       db_database_real_port=5432
