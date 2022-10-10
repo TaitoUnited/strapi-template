@@ -30,6 +30,8 @@ settings:
       name: ${st_bucket_name}
       location: ${taito_default_storage_location}
       storageClass: ${taito_default_storage_class}
+      # Azure specific settings
+      allowNestedItemsToBePublic: true
       # Object lifecycle
       versioningEnabled: true
       versioningRetainDays: ${taito_default_storage_days}
