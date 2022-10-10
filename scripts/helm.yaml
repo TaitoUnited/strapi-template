@@ -80,8 +80,6 @@ full-stack:
         DATABASE_HOST: "${db_database_real_host}"
         DATABASE_PORT: "${db_database_real_port}"
         DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
-        DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
-        DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_mgr_username}
         DATABASE_POOL_MIN: "0"
@@ -91,7 +89,5 @@ full-stack:
         BUCKET_REGION: ${taito_provider_region}
         BUCKET_BASE_URL: https://storage.googleapis.com/${taito_random_name}-dev # For GCP
         BUCKET_ENDPOINT: https://storage.googleapis.com # For GCP
-        # BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/ # For Azure through S3 proxy
-        # BUCKET_FORCE_PATH_STYLE: "true"
         BUCKET_KEY_ID_FILE: /run/secrets/BUCKET_KEY_ID
         BUCKET_KEY_SECRET_FILE: /run/secrets/BUCKET_KEY_SECRET
