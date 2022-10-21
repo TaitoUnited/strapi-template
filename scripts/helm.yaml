@@ -43,6 +43,7 @@ full-stack:
     server:
       paths:
         - path: /
+          clientMaxBodySize: 1m
         - path: /upload
           rewriteTarget: /upload
           clientMaxBodySize: 10m
