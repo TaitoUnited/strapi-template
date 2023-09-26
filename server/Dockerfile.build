@@ -7,6 +7,7 @@ RUN apk update && apk add build-base gcc autoconf automake zlib-dev libpng-dev v
 WORKDIR /develop
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
+     ${SERVICE_DIR}/.npmrc \
      /develop/
 COPY ${SERVICE_DIR}/strapi/package.json \
      ${SERVICE_DIR}/strapi/package-lock.* \

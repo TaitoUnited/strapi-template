@@ -14,9 +14,10 @@ USER "${USER_UID}"
 
 ARG SERVICE_DIR=.
 COPY --chown="${USER_UID}:0" \
-  ${SERVICE_DIR}/start.sh \
-  ${SERVICE_DIR}/package.json \
-  /develop/
+     ${SERVICE_DIR}/start.sh \
+     ${SERVICE_DIR}/package.json \
+     ${SERVICE_DIR}/.npmrc \
+     /develop/
 COPY --chown="${USER_UID}:0" \
   ${SERVICE_DIR}/strapi/README.md \
   ${SERVICE_DIR}/strapi/package.* \
