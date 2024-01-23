@@ -15,7 +15,7 @@ module.exports = [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          'connect-src': ["'self'", 'https:'],
+          'connect-src': ["'self'", 'https:'].concat(process.env.COMMON_ENV === 'local' ? ['http:'] : []),
           'img-src': [
             "'self'",
             'data:',
