@@ -88,7 +88,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.13.1"
+  version = "3.21.0"
 
   # Create flags
   create_ingress              = true

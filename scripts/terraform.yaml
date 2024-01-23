@@ -7,9 +7,10 @@ settings:
   backupEnabled: false
   uptimeEnabled: false
 
-  serviceAccounts:
-    - id: ${taito_project}-${taito_env}-server
-      roles: []
+  auth:
+    serviceAccounts:
+      - name: ${taito_project}-${taito_env}-server
+        roles: []
 
   ingress:
     class: gateway
