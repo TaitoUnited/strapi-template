@@ -14,5 +14,10 @@ else
   # Start the existing strapi app
   cd strapi
   npm install
+
+  # For some reason 'npm run build' needs to run again on start
+  # for COMMON_URL to apply
+  npm run build
+  
   npm run develop
 fi
